@@ -4,7 +4,7 @@ const ProductsSection = () => {
   const cardAmounts = [500, 1000, 5000];
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section id="products" className="py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-light text-gray-900 mb-4">

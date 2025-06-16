@@ -2,6 +2,16 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 
 const Header = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4">
@@ -20,18 +30,18 @@ const Header = () => {
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
-            <a
-              href="#"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+            <button
+              onClick={() => scrollToSection("products")}
+              className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
             >
               Карты
-            </a>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+            </button>
+            <button
+              onClick={() => scrollToSection("reviews")}
+              className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
             >
               Отзывы
-            </a>
+            </button>
             <a
               href="#"
               className="text-gray-600 hover:text-gray-900 transition-colors"
