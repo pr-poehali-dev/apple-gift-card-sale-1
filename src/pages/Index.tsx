@@ -3,16 +3,19 @@ import Hero from "@/components/Hero";
 import ProductsSection from "@/components/ProductsSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import SupportSection from "@/components/SupportSection";
+import { CartProvider } from "@/contexts/CartContext";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <Hero />
-      <ProductsSection />
-      <ReviewsSection />
-      <SupportSection />
-    </div>
+    <CartProvider>
+      <div className="min-h-screen">
+        <Header />
+        <Hero />
+        <ProductsSection />
+        <ReviewsSection />
+        <SupportSection />
+      </div>
+    </CartProvider>
   );
 };
 

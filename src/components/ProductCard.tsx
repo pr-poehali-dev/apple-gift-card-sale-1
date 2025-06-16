@@ -1,5 +1,6 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   amount: number;
@@ -7,12 +8,18 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
+  const { addItem } = useCart();
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("ru-RU", {
       style: "currency",
       currency: "RUB",
       minimumFractionDigits: 0,
     }).format(price);
+  };
+
+  const handleAddToCart = () => {
+    addItem(amount);
   };
 
   return (
@@ -49,13 +56,14 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
 
       <CardFooter className="p-8 pt-0">
         <Button
+          onClick={handleAddToCart}
           className={`w-full py-3 rounded-full font-medium transition-all duration-200 ${
             popular
               ? "bg-blue-600 hover:bg-blue-700 text-white"
               : "bg-gray-900 hover:bg-gray-800 text-white"
           }`}
         >
-          Купить сейчас
+          В корзину
         </Button>
       </CardFooter>
     </Card>

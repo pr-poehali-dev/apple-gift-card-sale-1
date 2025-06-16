@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useCart } from "@/contexts/CartContext";
 
 const Header = () => {
+  const { getItemCount } = useCart();
+  const itemCount = getItemCount();
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -54,8 +58,13 @@ const Header = () => {
             <Button variant="ghost" size="sm" className="hidden md:flex">
               <Icon name="Search" size={18} />
             </Button>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="relative">
               <Icon name="ShoppingCart" size={18} />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
             </Button>
             <Button
               size="sm"
