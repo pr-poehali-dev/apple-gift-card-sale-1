@@ -1,6 +1,7 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
+import Icon from "@/components/ui/icon";
 
 interface ProductCardProps {
   amount: number;
@@ -8,7 +9,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
-  const { addItem, isInCart } = useCart();
+  const { addItem, isInCart, getItemQuantity, updateQuantity } = useCart();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("ru-RU", {
@@ -57,19 +58,44 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
       </CardContent>
 
       <CardFooter className="p-8 pt-0">
-        <Button
-          onClick={handleAddToCart}
-          disabled={isInCart(amount)}
-          className={`w-full py-3 rounded-full font-medium transition-all duration-200 ${
-            isInCart(amount)
-              ? "bg-green-100 text-green-700 border border-green-300 cursor-default"
-              : popular
+        {isInCart(amount) ? (
+          <div className="w-full flex items-center justify-center space-x-4">
+            <Button
+              onClick={() => {
+                const currentQuantity = getItemQuantity(amount);
+                const id = `apple-card-${amount}`;
+                updateQuantity(id, Math.max(0, currentQuantity - 1));
+              }}
+              variant="outline"
+              size="sm"
+              className="w-10 h-10 rounded-full p-0"
+            >
+              <Icon name="Minus" size={16} />
+            </Button>
+            <span className="text-lg font-medium min-w-[2rem] text-center">
+              {getItemQuantity(amount)}
+            </span>
+            <Button
+              onClick={() => addItem(amount)}
+              variant="outline"
+              size="sm"
+              className="w-10 h-10 rounded-full p-0"
+            >
+              <Icon name="Plus" size={16} />
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={handleAddToCart}
+            className={`w-full py-3 rounded-full font-medium transition-all duration-200 ${
+              popular
                 ? "bg-blue-600 hover:bg-blue-700 text-white"
                 : "bg-gray-900 hover:bg-gray-800 text-white"
-          }`}
-        >
-          {isInCart(amount) ? "В корзине" : "Добавить в корзину"}
-        </Button>
+            }`}
+          >
+            Добавить в корзину
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
