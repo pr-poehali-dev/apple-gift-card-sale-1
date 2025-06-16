@@ -63,7 +63,7 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
             onClick={handleAddToCart}
             className={`flex-1 py-3 rounded-full font-medium transition-all duration-200 ${
               popular
-                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                ? "bg-red-600 hover:bg-red-700 text-white"
                 : "bg-gray-900 hover:bg-gray-800 text-white"
             }`}
           >
