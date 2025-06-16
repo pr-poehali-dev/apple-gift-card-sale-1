@@ -58,36 +58,10 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
       </CardContent>
 
       <CardFooter className="p-8 pt-0">
-        {isInCart(amount) ? (
-          <div className="w-full flex items-center justify-center space-x-4">
-            <Button
-              onClick={() => {
-                const currentQuantity = getItemQuantity(amount);
-                const id = `apple-card-${amount}`;
-                updateQuantity(id, Math.max(0, currentQuantity - 1));
-              }}
-              variant="outline"
-              size="sm"
-              className="w-10 h-10 rounded-full p-0"
-            >
-              <Icon name="Minus" size={16} />
-            </Button>
-            <span className="text-lg font-medium min-w-[2rem] text-center">
-              {getItemQuantity(amount)}
-            </span>
-            <Button
-              onClick={() => addItem(amount)}
-              variant="outline"
-              size="sm"
-              className="w-10 h-10 rounded-full p-0"
-            >
-              <Icon name="Plus" size={16} />
-            </Button>
-          </div>
-        ) : (
+        <div className="w-full flex items-center space-x-2">
           <Button
             onClick={handleAddToCart}
-            className={`w-full py-3 rounded-full font-medium transition-all duration-200 ${
+            className={`flex-1 py-3 rounded-full font-medium transition-all duration-200 ${
               popular
                 ? "bg-blue-600 hover:bg-blue-700 text-white"
                 : "bg-gray-900 hover:bg-gray-800 text-white"
@@ -95,7 +69,35 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
           >
             Добавить в корзину
           </Button>
-        )}
+
+          {isInCart(amount) && (
+            <>
+              <Button
+                onClick={() => {
+                  const currentQuantity = getItemQuantity(amount);
+                  const id = `apple-card-${amount}`;
+                  updateQuantity(id, Math.max(0, currentQuantity - 1));
+                }}
+                variant="outline"
+                size="sm"
+                className="w-10 h-10 rounded-full p-0"
+              >
+                <Icon name="Minus" size={16} />
+              </Button>
+              <span className="text-lg font-medium min-w-[2rem] text-center">
+                {getItemQuantity(amount)}
+              </span>
+              <Button
+                onClick={() => addItem(amount)}
+                variant="outline"
+                size="sm"
+                className="w-10 h-10 rounded-full p-0"
+              >
+                <Icon name="Plus" size={16} />
+              </Button>
+            </>
+          )}
+        </div>
       </CardFooter>
     </Card>
   );
