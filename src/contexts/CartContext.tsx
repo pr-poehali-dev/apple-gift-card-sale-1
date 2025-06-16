@@ -95,6 +95,7 @@ interface CartContextType {
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   getItemCount: () => number;
+  isInCart: (amount: number) => boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -122,6 +123,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return state.items.reduce((count, item) => count + item.quantity, 0);
   };
 
+  const isInCart = (amount: number) => {
+    const id = `apple-card-${amount}`;
+    return state.items.some((item) => item.id === id);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -131,6 +137,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         updateQuantity,
         clearCart,
         getItemCount,
+        isInCart,
       }}
     >
       {children}

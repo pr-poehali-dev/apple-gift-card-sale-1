@@ -8,7 +8,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
-  const { addItem } = useCart();
+  const { addItem, isInCart } = useCart();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("ru-RU", {
@@ -19,7 +19,9 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
   };
 
   const handleAddToCart = () => {
-    addItem(amount);
+    if (!isInCart(amount)) {
+      addItem(amount);
+    }
   };
 
   return (
@@ -57,13 +59,16 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
       <CardFooter className="p-8 pt-0">
         <Button
           onClick={handleAddToCart}
+          disabled={isInCart(amount)}
           className={`w-full py-3 rounded-full font-medium transition-all duration-200 ${
-            popular
-              ? "bg-blue-600 hover:bg-blue-700 text-white"
-              : "bg-gray-900 hover:bg-gray-800 text-white"
+            isInCart(amount)
+              ? "bg-green-100 text-green-700 border border-green-300 cursor-default"
+              : popular
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-gray-900 hover:bg-gray-800 text-white"
           }`}
         >
-          В корзину
+          {isInCart(amount) ? "В корзине" : "Добавить в корзину"}
         </Button>
       </CardFooter>
     </Card>
