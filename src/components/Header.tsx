@@ -42,12 +42,12 @@ const Header = () => {
             >
               Отзывы
             </button>
-            <a
-              href="#"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+            <button
+              onClick={() => scrollToSection("support")}
+              className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
             >
               Поддержка
-            </a>
+            </button>
           </nav>
 
           <div className="flex items-center space-x-4">
