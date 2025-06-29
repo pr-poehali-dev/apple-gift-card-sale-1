@@ -2,6 +2,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
+import CartModal from "@/components/CartModal";
 
 interface ProductCardProps {
   amount: number;
@@ -10,6 +12,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
   const { addItem, isInCart, getItemQuantity, updateQuantity } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("ru-RU", {
@@ -72,16 +75,18 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
             </Button>
           ) : (
             <div className="space-y-2">
-              <div className="bg-green-500 text-white rounded-2xl px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center">
-                  <Icon name="ShoppingCart" size={20} className="mr-3" />
-                </div>
+              <div className="bg-green-500 text-white rounded-2xl px-4 h-12 flex items-center justify-between">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-white hover:bg-green-600 w-8 h-8 rounded-full p-0"
+                  onClick={() => setIsCartOpen(true)}
+                >
+                  <Icon name="ShoppingCart" size={16} />
+                </Button>
                 <div className="flex-1 text-center">
                   <div className="text-lg font-medium">
                     {getItemQuantity(amount)} шт
-                  </div>
-                  <div className="text-sm opacity-90">
-                    {formatPrice(amount * getItemQuantity(amount))}
                   </div>
                 </div>
                 <Button
@@ -94,12 +99,13 @@ const ProductCard = ({ amount, popular = false }: ProductCardProps) => {
                 </Button>
               </div>
               <div className="text-center text-sm text-green-600 font-medium">
-                В наличии {getItemQuantity(amount)} шт
+                {formatPrice(amount * getItemQuantity(amount))}
               </div>
             </div>
           )}
         </div>
       </CardFooter>
+      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </Card>
   );
 };
